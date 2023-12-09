@@ -6,7 +6,7 @@ const createUserToken = require("../helpers/create-user-token");
 const getToken = require("../helpers/get-token");
 
 module.exports = class LoginController {
-  static async login(req, res) {
+  static async authenticateUser(req, res) {
     try {
       const { email, password } = req.body;
 

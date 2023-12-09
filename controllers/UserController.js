@@ -1,7 +1,7 @@
 const User = require("../models/User");
 
 module.exports = class UserController {
-  static async register(req, res) {
+  static async registerUser(req, res) {
     const { name, email, phone, password, confirmPassword } = req.body;
 
     if (!name) {
@@ -33,5 +33,17 @@ module.exports = class UserController {
     if (userExists) {
       return res.status(409).json({ message: "Usuário já está cadastrado." });
     }
+  }
+
+  static async getUserById(req, res) {
+    const id = req.params.id;
+
+    const user = await User.findById(id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuaŕio não encontrado." });
+    }
+
+    res.status(200).json({ user });
   }
 };
