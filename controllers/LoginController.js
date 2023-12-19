@@ -1,9 +1,9 @@
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
 const createUserToken = require("../helpers/create-user-token");
 const getToken = require("../helpers/get-token");
+
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = class LoginController {
   static async authenticateUser(req, res) {

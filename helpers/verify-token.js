@@ -1,5 +1,6 @@
-const jwt = require("jsonwebtoken");
 const getToken = require("./get-token");
+
+const jwt = require("jsonwebtoken");
 
 // Middleware to verify token
 const checkToken = (req, res, next) => {

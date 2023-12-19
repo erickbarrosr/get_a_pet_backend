@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const getToken = require("../helpers/get-token");
 const getUserByToken = require("../helpers/get-user-by-token");
+
 const bcrypt = require("bcrypt");
 
 module.exports = class UserController {
