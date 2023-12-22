@@ -45,15 +45,20 @@ module.exports = class UserController {
   }
 
   static async getUserById(req, res) {
-    const id = req.params.id;
+    try {
+      const id = req.params.id;
 
-    const user = await User.findById(id).select("-password");
+      const user = await User.findById(id).select("-password");
 
-    if (!user) {
-      return res.status(404).json({ message: "Usuaŕio não encontrado." });
+      if (!user) {
+        return res.status(404).json({ message: "Usuaŕio não encontrado." });
+      }
+
+      res.status(200).json({ user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Falha ao buscar usuário." });
     }
-
-    res.status(200).json({ user });
   }
 
   static async editUser(req, res) {
