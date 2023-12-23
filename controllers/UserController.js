@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const createUserToken = require("../helpers/create-user-token");
 const getToken = require("../helpers/get-token");
 const getUserByToken = require("../helpers/get-user-by-token");
 
@@ -38,6 +39,21 @@ module.exports = class UserController {
       if (userExists) {
         return res.status(409).json({ message: "Usuário já está cadastrado." });
       }
+
+      const salt = await bcrypt.genSalt(12);
+
+      const passwordHash = await bcrypt.hash(password, salt);
+
+      const user = new User({
+        name,
+        email,
+        phone,
+        password: passwordHash,
+      });
+
+      const newUser = await user.save();
+
+      await createUserToken(newUser, req, res);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Falha ao registrar usuário." });
