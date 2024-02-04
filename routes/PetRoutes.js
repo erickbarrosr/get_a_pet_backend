@@ -11,4 +11,6 @@ router.post(
   PetController.registerPet
 );
 
+router.get("/", PetController.showAllPets);
+
 module.exports = router;
