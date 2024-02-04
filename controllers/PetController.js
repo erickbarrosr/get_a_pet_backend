@@ -61,4 +61,15 @@ module.exports = class PetController {
       res.status(500).json({ message: "Falha ao registrar Pet." });
     }
   }
+
+  static async showAllPets(req, res) {
+    try {
+      const pets = await Pet.find().sort("-createdAt");
+
+      res.status(200).json({ pets });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Erro ao mostrar todos os Pets." });
+    }
+  }
 };
