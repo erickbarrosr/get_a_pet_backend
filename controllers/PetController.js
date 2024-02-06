@@ -88,4 +88,21 @@ module.exports = class PetController {
       res.status(500).json({ message: "Erro ao mostrar pets do usuário." });
     }
   }
+
+  static async showUserAdoptions(req, res) {
+    try {
+      const token = getToken(req);
+
+      const user = await getUserByToken(token);
+
+      const pets = await Pet.find({ "adopter._id": user._id }).sort(
+        "-createdAt"
+      );
+
+      res.status(200).json({ pets });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Erro ao mostrar adoções do usuário." });
+    }
+  }
 };
