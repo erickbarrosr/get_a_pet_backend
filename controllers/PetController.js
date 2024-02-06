@@ -32,6 +32,7 @@ module.exports = class PetController {
       }
 
       const token = getToken(req);
+
       const user = await getUserByToken(token);
 
       const pet = new Pet({
@@ -55,7 +56,7 @@ module.exports = class PetController {
 
       const newPet = await pet.save();
 
-      res.status(201).json({ message: "Pet cadastrado com sucesso!", newPet });
+      res.status(201).json({ newPet, message: "Pet cadastrado com sucesso!" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Falha ao registrar Pet." });
@@ -70,6 +71,21 @@ module.exports = class PetController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Erro ao mostrar todos os Pets." });
+    }
+  }
+
+  static async showUserPets(req, res) {
+    try {
+      const token = getToken(req);
+
+      const user = await getUserByToken(token);
+
+      const pets = await Pet.find({ "user._id": user._id }).sort("-createdAt");
+
+      res.status(200).json({ pets });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Erro ao mostrar pets do usuário." });
     }
   }
 };
