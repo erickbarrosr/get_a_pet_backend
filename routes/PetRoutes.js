@@ -15,4 +15,6 @@ router.get("/", PetController.showAllPets);
 
 router.get("/mypets", PetController.showUserPets);
 
+router.get("/myadoptions", PetController.showUserAdoptions);
+
 module.exports = router;
