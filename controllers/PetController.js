@@ -2,6 +2,8 @@ const Pet = require("../models/Pet");
 const getToken = require("../helpers/get-token");
 const getUserByToken = require("../helpers/get-user-by-token");
 
+const ObjectId = require("mongoose").Types.ObjectId;
+
 module.exports = class PetController {
   static async registerPet(req, res) {
     try {
@@ -103,6 +105,15 @@ module.exports = class PetController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Erro ao mostrar adoções do usuário." });
+    }
+  }
+
+  static async showPet(req, res) {
+    try {
+      const id = req.params.id;
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Erro ao mostrar o pet." });
     }
   }
 };
