@@ -111,6 +111,18 @@ module.exports = class PetController {
   static async showPet(req, res) {
     try {
       const id = req.params.id;
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(422).json({ message: "ID inválido." });
+      }
+
+      const pet = await Pet.findOne({ _id: id });
+
+      if (!pet) {
+        return res.status(404).json({ message: "Pet não encontrado." });
+      }
+
+      res.status(200).json({ pet });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Erro ao mostrar o pet." });
