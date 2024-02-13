@@ -19,4 +19,6 @@ router.get("/myadoptions", PetController.showUserAdoptions);
 
 router.get("/:id", PetController.showPet);
 
+router.delete("/:id", verifyToken, PetController.removePet);
+
 module.exports = router;
