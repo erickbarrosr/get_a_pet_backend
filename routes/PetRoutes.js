@@ -28,4 +28,6 @@ router.patch(
   PetController.updatePet
 );
 
+router.patch("/schedule/:id", verifyToken, PetController.scheduleVisit);
+
 module.exports = router;
