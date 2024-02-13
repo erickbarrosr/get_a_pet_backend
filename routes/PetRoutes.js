@@ -21,4 +21,11 @@ router.get("/:id", PetController.showPet);
 
 router.delete("/:id", verifyToken, PetController.removePet);
 
+router.patch(
+  "/:id",
+  verifyToken,
+  imageUpload.array("images"),
+  PetController.updatePet
+);
+
 module.exports = router;

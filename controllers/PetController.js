@@ -167,4 +167,83 @@ module.exports = class PetController {
       res.status(500).json({ message: "Erro ao remover Pet." });
     }
   }
+
+  static async updatePet(req, res) {
+    try {
+      const { name, age, weight, color, available } = req.body;
+
+      const images = req.files;
+
+      const id = req.params.id;
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(422).json({ message: "ID inválido." });
+      }
+
+      const updatedData = {};
+
+      const pet = await Pet.findOne({ _id: id });
+
+      if (!pet) {
+        return res.status(404).json({ message: "Pet não encontrado." });
+      }
+
+      const token = getToken(req);
+
+      const user = await getUserByToken(token);
+
+      if (
+        !user ||
+        !user._id ||
+        !pet.user ||
+        !pet.user._id ||
+        pet.user._id.toString() !== user._id.toString()
+      ) {
+        return res
+          .status(422)
+          .json({ message: "Você não pode atualizar esse pet." });
+      }
+
+      if (!name) {
+        return res.status(422).json({ message: "O nome é obrigatório." });
+      } else {
+        updatedData.name = name;
+      }
+
+      if (!age) {
+        return res.status(422).json({ message: "A idade é obrigatória." });
+      } else {
+        updatedData.age = age;
+      }
+
+      if (!weight) {
+        return res.status(422).json({ message: "O peso é obrigatório." });
+      } else {
+        updatedData.weight = weight;
+      }
+
+      if (!color) {
+        return res.status(422).json({ message: "A cor é obrigatória." });
+      } else {
+        updatedData.color = color;
+      }
+
+      if (images.length === 0) {
+        return res.status(422).json({ message: "A imagem é obrigatória." });
+      } else {
+        updatedData.images = [];
+
+        images.map((image) => {
+          updatedData.images.push(image.filename);
+        });
+      }
+
+      await Pet.findByIdAndUpdate(id, updatedData);
+
+      res.status(200).json({ message: "Pet atualizado com sucesso!" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Erro ao atualizar seu pet." });
+    }
+  }
 };
