@@ -22,12 +22,14 @@ router.get("/:id", PetController.showPet);
 router.delete("/:id", verifyToken, PetController.removePet);
 
 router.patch(
-  "/:id",
+  "/update/:id",
   verifyToken,
   imageUpload.array("images"),
   PetController.updatePet
 );
 
 router.patch("/schedule/:id", verifyToken, PetController.scheduleVisit);
+
+router.patch("/conclude/:id", verifyToken, PetController.concludeAdoption);
 
 module.exports = router;
