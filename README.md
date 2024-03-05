@@ -10,7 +10,7 @@ Before you begin, ensure you have met the following requirements:
 - MongoDB installed and running locally or accessible via a connection string.
 - Node package manager(npm) installed.
 
-## Installaton
+## Installation
 
 1. Clone the repository:
 
